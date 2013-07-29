@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<project name="ArduinoWithStreams" basedir="." default="install">
+    <presetdef name="javac">
+        <javac includeantruntime="false" />
+    </presetdef>
+    
+    <!-- jar include paths -->
+    <path id="jar.include">
+        <fileset dir="jar/p5">
+            <include name="core.jar" />
+            <include name="serial.jar" />
+        </fileset>
+    </path>
+    
+    <!-- clean -->
+    <target name="clean">
+        <delete dir="classes" failonerror="false" />
+        <delete dir="jar/ArduinoWithStreams" failonerror="false" />
+        <delete file="library/ArduinoWithStreams.jar" failonerror="false" />
+    </target>
+
+    <!-- compile -->
+    <target name="compile">
+        <mkdir dir="classes" />
+        <javac srcdir="src" destdir="classes">
+            <classpath>
+                <path refid="jar.include" />
+            </classpath>
+        </javac>
+    </target>
+
+    <!-- jar -->
+    <target name="jar" depends="compile">
+        <mkdir dir="jar/ArduinoWithStreams" />
+        <jar destfile="jar/ArduinoWithStreams/ArduinoWithStreams.jar" basedir="classes" />
+    </target>
+
+    <!-- install -->
+    <target name="install" depends="jar">
+        <copy todir="library">
+            <fileset dir="jar/ArduinoWithStreams" includes="ArduinoWithStreams.jar" />
+        </copy>
+    </target>
+        
+    <target name="help" />
+</project>
